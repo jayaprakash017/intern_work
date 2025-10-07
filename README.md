@@ -29,10 +29,13 @@ Now if you want to delete the image we can use this command
 
 	$sudo docker rmi image ubuntu 
 
-it will definately throw conflict error because have same name and even have same image id 
+it will definately throw conflict error because have same name and even have same image id like these
+
+Error response from daemon: conflict: unable to delete ce8f79aecc43 (must be forced) - image is referenced in multiple repositories
+
 To overcome that we have to mention the tag name alog with  image name and check images
 
-	$sudo dokcer rmi ubuntu:lts 	
+	$sudo dokcer rmi ubuntu:lts
 	
 	$sudo docker images
 	
