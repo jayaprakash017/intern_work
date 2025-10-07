@@ -1,10 +1,12 @@
 # intern_work
 7TH-OCT-2025
+
 DEALING WITH TAGS 
 
 1.pull a ubuntu image & to check the images that we created 
 
  $sudo docker pull ubuntu 
+ 
  $sud0 docker images
  
 
@@ -28,7 +30,8 @@ Now if you want to delete the image we can use this command
 it will definately throw conflict error because have same name and even have same image id 
 To overcome that we have to mention the tag name alog with  image name and check images
 
-  $sudo dokcer rmi ubuntu:lts 
+	$sudo dokcer rmi ubuntu:lts 	
+	
 	$sudo docker images
 	
 REPOSITORY   TAG       IMAGE ID       CREATED      SIZE
