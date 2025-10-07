@@ -5,9 +5,9 @@ DEALING WITH TAGS
 
 1.pull a ubuntu image & to check the images that we created 
 
- $sudo docker pull ubuntu 
- 
- $sud0 docker images
+ 	$sudo docker pull ubuntu 
+	
+	$sudo docker images
  
 
  REPOSITORY   TAG       IMAGE ID       CREATED      SIZE
