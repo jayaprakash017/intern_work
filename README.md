@@ -17,8 +17,10 @@ by default it will create a tag with the name of 'latest'
 if you want do it manually then you canuse this commnd & check 
 
   $sudo docker tag ubuntu ubuntu:lts
+  
   $sudo docker images 
- 
+
+
 REPOSITORY   TAG       IMAGE ID       CREATED      SIZE
 ubuntu       latest    ce8f79aecc43   6 days ago   78.1MB
 ubuntu       lts       ce8f79aecc43   6 days ago   78.1MB
