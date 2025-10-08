@@ -108,7 +108,7 @@ now check the data
 
 $cd data
 
-there we can see that 'mongodb_bakup' file which we created
+there we can see that 'mongodb_bakup' file which we created.
 
 
 
