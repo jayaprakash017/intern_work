@@ -27,7 +27,7 @@ ubuntu       lts       ce8f79aecc43   6 days ago   78.1MB
 
 Now if you want to delete the image we can use this command 
 
-	$sudo docker rmi image ubuntu 
+	$sudo docker rmi  ubuntu 
 
 it will definately throw conflict error because have same name and even have same image id like these
 
@@ -46,69 +46,54 @@ ubuntu       latest    ce8f79aecc43   6 days ago   78.1MB
 volume persistance
 
 First udate the system
-
 $sudo apt update  && sudo upgrade
 
-pull the mongo image
+VOLUME_PERSISTENCE WITH POSTGRES_DB
 
-$sudo docker pull mongo
 
-Using default tag: latest
-latest: Pulling from library/mongo
-a1a21c96bc16: Already exists 
-8481a729031f: Pull complete 
-d183ce926b04: Pull complete 
-5dac1b57d544: Pull complete 
-09d333d29f76: Pull complete 
-1f1cbb33527b: Pull complete 
-0ef8bb939786: Pull complete 
-43ec45d81e04: Pull complete 
-Digest: sha256:ea783d8ac4dcac9f8a7ff236b26a52e36649fc1bdd1778ffb44ba5e4de776cda
-Status: Downloaded newer image for mongo:latest
-docker.io/library/mongo:latest
+AIM-The main aim of these task is whenever we delete a container the data inside the container will also deleted to overcome that we can use volume 
 
-checking images
+To know that follow the following steps :
 
-$sudo docker images
-REPOSITORY   TAG       IMAGE ID       CREATED       SIZE
-mongo        latest    e4ec68a273dd   5 days ago    916MB
+Create a volume 
+ $docker volume create pgdata_volume
 
-create a volume & check
+Pull an image of postgres (optional)
 
-$sudo docker create volume  mongo_vol
-$sudo docker volume ls
+$docker pull postgres
 
-attach volume to mongo image which we created earlier 
+#So it will pull the postgres image from public dockerhub 
 
-$sudo docker run -it --name mongo_cont1 -p 21017:27017 -v mongo_vol:/data ubuntu /bin/bash
+Create a container and attach volume that we created earlier with docker run command 
 
-after that you are in the mongo_cont1 then insert the data for that
+$docker  run -it --name postgresdb_container1 -e POSTGRES_USER=jaya -e POSTGRES_PASSWORD=keypass -e POSTGRES_DB=jaya_postgress_db -v postgres_volume:/var/lib/postgresql/data -p 5432:55432 postgres
 
-$cd data
+#--name :it helps to create container with specific name 
+#-e POSTGRES-USER=jaya :used to creat a database user to database
+#-e POSTGRES_PASSWORD :set password to the database
+#-e POSTGRES_DB :set database name
+#-v postgres_volume:/var/lib/postgresql/data : set a path b/w volume to postgres default path
+Postgres database and these is /var/lib/postgresql/data default postgres database path
+#Postgres :image 
 
-there i create a file with 'mongodb_bakup' in that insert some data
+To attach to the database and insert the data 
 
-$touch mongodb_backup
-$cat >> mongodb_backup
+$docker exec -it db_container1 psql -U jaya -d jaya_postgress_db 
 
-Now stop the container and remove the container & list all containers
+After that insert the data into the database by using postgres query  after to quit from database use /q
 
-$sudo docker stop container-id
-$sudo docker rm container-id
-$sudo ps -a
+Next stop & remove the container 
 
-now check the volume previously we attcjed to the mongo image
-$sudo docker volume ls 
+$docker stop db_container1
+$docker rm db_container1
 
-Now create another container by using mongo image and attach the mongo_vol too
+Now run a new container by attaching the same volume and check for the data
 
-$sudo docker run -it --name mongo_cont2 -p 21017:27017 -v mongo_vol:/data ubuntu /bin/bash
+$docker  run -it --name db_container2 -e POSTGRES_USER=jaya -e POSTGRES_PASSWORD=passkey -e POSTGRES_DB=jaya_postgress_db -v postgres_volume:/var/lib/postgresql/data -p 5432:55432 postgres
 
-now check the data 
 
-$cd data
-
-there we can see that 'mongodb_bakup' file which we created.
+To attach to the database and check the data 
+$docker exec -it db_container2 psql -U jaya -d jaya_postgress_db 
 
 
 
@@ -116,5 +101,11 @@ there we can see that 'mongodb_bakup' file which we created.
 
 
 
- 
+
+
+
+
+
+
+
 
