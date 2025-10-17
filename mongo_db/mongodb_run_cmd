@@ -1,0 +1,11 @@
+DOCKER RUN COMMAND:
+
+docker run -d --name mongodb_doc -e MONGO_INITDB_ROOT_USERNAME=jayamangodb -e MONGO_INITDB_ROOT_PASSWORD=jayamongodbp -e MONGO_INITDB_ROOT_DATABASE=jayamongodb -p 27107:27017 -v jaya_mongodb_volume:/data/db mongo:noble
+
+Dockerfile COMMANDS:
+
+docker build -t mongo:noble .
+
+docker run -d --name mongodb_doc -p 27107:27017 -v jaya_mongodb_volume:/data/db mongo:noble
+ 
+docker exec -it mongodb_doc mongosh -u jayamangodb -p jayamongodbp  

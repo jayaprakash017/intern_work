@@ -1,0 +1,12 @@
+DOCKER RUN COMMAND:
+
+docker run -d --name mysqldb_doc  -e MYSQL_USER=jayamysqldb  -e MYSQL_PASSWORD=jayamysqldbp  -e MYSQL_DATABASE=jayamysqldb -e ENV MYSQL_ROOT_PASSWORD=jayaroot  -v jaya_mysqldb_volume:/var/lib/mysql -p 3306:3306 mysql:8.0.43
+
+
+Dockerfile COMMANDS:
+
+docker build -t mysql:8.0.43 .
+
+docker run -d --name mysqldb_doc -v jaya_mysqldb_volume:/var/lib/mysql -p 3306:3306 mysql:8.0.43
+
+docker exec -it mysqldb_doc mysql -u jayamysqldb -p 

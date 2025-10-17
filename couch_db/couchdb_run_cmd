@@ -1,0 +1,11 @@
+DOCKER RUN COMMANDS:
+
+docker run -d --name couchdb_doc -e COUCHDB_USER=jayacouchdb -e COUCHDB_PASSWORD=jayacouchdbp -v jaya_couchdb_volume:/opt/couchdb/data -p 5984:5984 couchdb:3.1.2
+
+Dockerfile COMMANDS:
+
+docker build -t couchdb:3.1.2 .
+
+docker run -d --name couchdb_doc -v jaya_couchdb_volume:/opt/couchdb/data -p 5984:5984 couchdb:3.1.2
+
+docker exec -it couchdb_doc curl -X PUT "http://jayacouchdb:jayacouchdbp@localhost:5984/couchdatabase"

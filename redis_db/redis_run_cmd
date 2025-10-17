@@ -1,0 +1,11 @@
+DOCKER RUN COMMAND:
+
+docker run -d --name redis_doc  -e REDIS_PASSWORD=jayaredisp -v jaya_redis_personaldb:/data -p 6374:6374 redis:alpine
+
+Dockerfile commands:
+
+docker build -t redis:alpine .
+
+docker run -d --name redis_doc  -v jaya_redis_personaldb:/data -p 6374:6374 redis:alpine
+
+docker exec -it redis_doc redis-cli -a jayaredisp 

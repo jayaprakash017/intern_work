@@ -1,0 +1,10 @@
+DOCKER RUN COMMAND:
+docker run -d --name postgresdb_doc -e POSTGRES_PASSWORD=jayapostgresp -e POSTGRES_USER=jayapostgres -e POSTGRES_DB=jayapostgresdb  -p 5432:5432 -v jaya_postgresdb_volume:/var/lib/postgresql/data postgres:15.14-alpine3.21
+
+Dockerfile COMMANDS:
+
+docker build -t postgres:15.14-alpine3.21 .
+
+docker run -d --name postgresdb_doc  -p 5432:5432 -v jaya_postgresdb_volume:/var/lib/postgresql/data postgres:15.14-alpine3.21
+ 
+docker exec -it postgresdb_doc psql -U jayapostgres -d jayapostgresdb 

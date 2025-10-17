@@ -1,0 +1,10 @@
+
+FROM  mongo:noble
+
+VOLUME /data/db
+
+EXPOSE 27107
+
+ENV MONGO_INITDB_ROOT_USERNAME=jayamangodb
+ENV MONGO_INITDB_ROOT_PASSWORD=jayamongodbp
+ENV MONGO_INITDB_ROOT_DATABASE=jayamongodb
