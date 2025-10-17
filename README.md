@@ -45,28 +45,30 @@ ubuntu       latest    ce8f79aecc43   6 days ago   78.1MB
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 volume persistance
 
-First udate the system
-$sudo apt update  && sudo upgrade
-
 VOLUME_PERSISTENCE WITH POSTGRES_DB
-
 
 AIM-The main aim of these task is whenever we delete a container the data inside the container will also deleted to overcome that we can use volume 
 
 To know that follow the following steps :
 
 Create a volume 
+
  $docker volume create pgdata_volume
+
 
 Pull an image of postgres (optional)
 
 $docker pull postgres
+
 
 #So it will pull the postgres image from public dockerhub 
 
 Create a container and attach volume that we created earlier with docker run command 
 
 $docker  run -it --name postgresdb_container1 -e POSTGRES_USER=jaya -e POSTGRES_PASSWORD=keypass -e POSTGRES_DB=jaya_postgress_db -v postgres_volume:/var/lib/postgresql/data -p 5432:55432 postgres
+
+
+
 
 #--name :it helps to create container with specific name 
 #-e POSTGRES-USER=jaya :used to creat a database user to database
@@ -80,6 +82,7 @@ To attach to the database and insert the data
 
 $docker exec -it db_container1 psql -U jaya -d jaya_postgress_db 
 
+
 After that insert the data into the database by using postgres query  after to quit from database use /q
 
 Next stop & remove the container 
@@ -87,13 +90,29 @@ Next stop & remove the container
 $docker stop db_container1
 $docker rm db_container1
 
+
 Now run a new container by attaching the same volume and check for the data
 
 $docker  run -it --name db_container2 -e POSTGRES_USER=jaya -e POSTGRES_PASSWORD=passkey -e POSTGRES_DB=jaya_postgress_db -v postgres_volume:/var/lib/postgresql/data -p 5432:55432 postgres
 
 
+
 To attach to the database and check the data 
 $docker exec -it db_container2 psql -U jaya -d jaya_postgress_db 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
