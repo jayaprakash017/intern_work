@@ -1,0 +1,121 @@
+# Start with the Alpine base image
+FROM alpine:3.22.2
+
+# Install build dependencies
+RUN apk update && apk add --no-cache \
+    build-base \
+    wget \
+    gcc \
+    libffi-dev \
+    openssl-dev \
+    zlib-dev
+
+# Install Python 3.12
+RUN wget https://www.python.org/ftp/python/3.12.0/Python-3.12.0.tgz && \
+    tar -xvf Python-3.12.0.tgz && \
+    cd Python-3.12.0 && \
+    ./configure --enable-optimizations --prefix=/usr/local && \
+    make && \
+    make install
+
+# Install pip
+RUN wget https://bootstrap.pypa.io/get-pip.py && python3 get-pip.py && rm get-pip.py
+
+# Clean up
+RUN rm -rf Python-3.12.0.tar.xz Python-3.12.0
+
+# Ensure the system uses python3.12 and pip
+RUN python3 --version && pip3 --version
+
+# Set up working directory
+WORKDIR /app
+
+# Add your application code
+COPY . /app
+
+# Install Python dependencies (uncomment if you have requirements.txt)
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Expose port (optional, if your app listens to a port)
+#EXPOSE 8000
+
+# Set the command to run your application (e.g., a FastAPI app)
+#CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+
+#idp-assistant-studio
+CMD ["bash", "startup.sh"]
+
+Getting pivilus requrirement error becoz of mivuls version is not supported while using alpine as base image
+################################################################################################
+# Add glibc compatibility so we can use manylinux wheels (like milvus-lite)
+RUN apk add --no-cache gcompat curl
+
+# Manually install milvus-lite (manylinux build)
+RUN curl -L -o /tmp/milvus_lite.whl https://github.com/milvus-io/milvus-lite/releases/download/v2.4.0/milvus_lite-2.4.0-py3-none-manylinux2014_x86_64.whl \
+ && pip install /tmp/milvus_lite.whl \
+ && rm -f /tmp/milvus_lite.whl
+
+#add this to rectify the early issue. 
+###############################################################################################
+
+# Add glibc compatibility so we can use manylinux wheels (like milvus-lite)
+RUN apk add --no-cache gcompat curl
+
+# Manually install milvus-lite (manylinux build)
+RUN curl -L -o /tmp/milvus_lite.whl https://github.com/milvus-io/milvus-lite/releases/download/v2.4.0/milvus_lite-2.4.0-py3-none-manylinux2014_x86_64.whl \
+    && ls -lh /tmp/milvus_lite.whl \
+    && pip install /tmp/milvus_lite.whl \
+    && rm -f /tmp/milvus_lite.whl
+
+# Install Python dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+###############################################################################################
+FROM alpine:3.22.2
+# Install build dependencies and glibc compatibility
+RUN apk update && apk add --no-cache \
+    build-base \
+    wget \
+    gcc \
+    libffi-dev \
+    openssl-dev \
+    zlib-dev \
+    gcompat \
+    curl \
+    bash \
+    && rm -rf /var/cache/apk/*
+RUN wget https://www.python.org/ftp/python/3.12.0/Python-3.12.0.tgz && \
+    tar -xvf Python-3.12.0.tgz && \
+    cd Python-3.12.0 && \
+    ./configure --enable-optimizations --prefix=/usr/local && \
+    make -j$(nproc) && \
+    make install && \
+    cd .. && \
+    rm -rf Python-3.12.0 Python-3.12.0.tgz
+# Install pip
+RUN wget https://bootstrap.pypa.io/get-pip.py && python3 get-pip.py && rm get-pip.py
+# Verify installation
+RUN python3 --version && pip3 --version
+#RUN curl -L -o /tmp/milvus_lite.whl \
+#    https://github.com/milvus-io/milvus-lite/releases/download/v2.4.0/milvus_lite-2.4.0-py3-none-manylinux2014_x86_64.whl \
+#    && ls -lh /tmp/milvus_lite.whl \
+#    && pip install /tmp/milvus_lite.whl \
+#    && rm -f /tmp/milvus_lite.whl
+# Set up working directory
+WORKDIR /app
+COPY . /app
+RUN pip install -r requirements.txt
+RUN pip install --no-cache-dir grpcio==1.74.0 grpcio-tools==1.74.0
+CMD ["bash", "startup.sh"]
+#####################################################################################
+changed pip lines that to install the milvus without depndencies 
+# Install Python dependencies
+RUN pip install --no-cache-dir --break-system-packages --no-deps pymilvus==2.5.3 && \
+    pip install --no-cache-dir --break-system-packages grpcio==1.74.0 grpcio-tools==1.74.0 && \
+    pip install --no-cache-dir --break-system-packages -r requirements.txt
+# Skip milvus-lite (not needed when connecting to external Milvus)
+
+######################################################################
+Try to build image by adding python-alpine 
+but getting error  => ERROR [3/8] RUN apt-get update && apt-get install -y git && apt-get install -y git ca-certificates                                                                             0.2s
+ERROR: failed to build: failed to solve: process "/bin/sh -c apt-get update && apt-get install -y git && apt-get install -y git ca-certificates" did not complete successfully: exit code: 127
+

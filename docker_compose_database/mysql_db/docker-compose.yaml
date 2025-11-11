@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:latest
+    container_name: mysql_compose
+    ports:
+      - '3306:3306'
+    volumes:
+      - mysql_vol:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: personal
+      MYSQL_USER: jaya
+      MYSQL_PASSWORD: pass
+      MYSQL_DATABASE: beamx_mysqldb
+
+volumes:
+  mysql_vol:
+    name: mysql_vol
+

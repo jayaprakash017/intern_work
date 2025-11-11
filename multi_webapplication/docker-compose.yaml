@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  jaya:
+    image: nginx:latest
+    container_name: jaya_web1
+    ports:
+      - "80:80"
+    volumes:
+      - ./jaya/nginx.conf:/etc/nginx/nginx.conf/:ro
+      - ./jaya/html:/usr/share/nginx/html/:ro
+    networks:
+      - nginx_network
+  rami:
+    image: nginx:latest
+    container_name: rami_web2
+    ports:
+      - "81:80"
+    volumes:
+      - ./rami/nginx.conf:/etc/nginx/nginx.conf/:ro
+      - ./rami/html:/usr/share/nginx/html/:ro
+    networks:
+      - nginx_network
+  nagi:
+    image: nginx:latest
+    container_name: nagi_web3
+    ports:
+      - "82:80"
+    volumes:
+      - ./nagi/nginx.conf:/etc/nginx/nginx.conf/:ro
+      - ./nagi/html:/usr/share/nginx/html/:ro
+    networks:
+      - nginx_network
+
+
+
+
+
+networks:
+  nginx_network:
+    driver: bridge

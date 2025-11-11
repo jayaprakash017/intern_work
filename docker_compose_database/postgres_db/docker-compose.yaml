@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgresdb_compose
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgresdb_vol:/var/lib/postgresql
+    environment:
+      POSTGRES_USER: jaya
+      POSTGRES_PASSWORD: personal
+      POSTGRES_DB: beamxdb
+
+volumes:
+  postgresdb_vol:
+    name: postgresdb_vol

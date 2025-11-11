@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb_compose
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongodb_vol:/data/db 
+    environment: 
+      MONGO_INITDB_ROOT_USERNAME: jaya
+      MONGO_INITDB_ROOT_PASSWORD: password
+      MONGO_INITDB_DATABASE: beamx_mongodb
+
+volumes:
+  mongodb_vol:
+    name: mongodb_vol
